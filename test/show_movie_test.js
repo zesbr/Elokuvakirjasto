@@ -31,7 +31,7 @@ describe('Show movie', function(){
 	    });
 
 	    // Lisää vakoilijat
-	    // spyOn(FirebaseServiceMock, 'jokuFunktio');
+	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
   	});
 
   	/*

@@ -24,7 +24,7 @@ describe('Movie list', function(){
 	    });
 
 	    // Lisää vakoilijat
-	    // spyOn(FirebaseServiceMock, 'jokuFunktio');
+	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
   	});
 
   	/*
