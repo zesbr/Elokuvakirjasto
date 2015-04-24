@@ -19,6 +19,9 @@ describe('Show movie', function(){
 			}
 		});
 
+		// Lisää vakoilijat
+	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
+
     	// Injektoi toteuttamasi kontrolleri tähän
 	    inject(function($controller, $rootScope) {
 	      scope = $rootScope.$new();
@@ -29,9 +32,6 @@ describe('Show movie', function(){
 	       	$routePrams: RouteParamsMock
 	      });
 	    });
-
-	    // Lisää vakoilijat
-	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
   	});
 
   	/*

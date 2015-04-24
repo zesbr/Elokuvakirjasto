@@ -13,6 +13,9 @@ describe('Movie list', function(){
 			}
 		})();
 
+		// Lisää vakoilijat
+	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
+
     	// Injektoi toteuttamasi kontrolleri tähän
 	    inject(function($controller, $rootScope) {
 	      scope = $rootScope.$new();
@@ -22,9 +25,6 @@ describe('Movie list', function(){
 	        FirebaseService: FirebaseServiceMock
 	      });
 	    });
-
-	    // Lisää vakoilijat
-	    // spyOn(FirebaseServiceMock, 'jokuFunktio').and.callThrough();
   	});
 
   	/*
