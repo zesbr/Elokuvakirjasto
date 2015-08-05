@@ -1,0 +1,13 @@
+<section ng-repeat="movie in movies">
+	
+	<h2><a ng-href="#">{{ movie.title }}</a> ({{ movie.year }})</h2>
+	<p>{{ movie.description }}</p>
+
+	<strong>Cast & Crew</strong>
+	<ul>
+		<li>Director: {{ movie.director }}</li>
+	</ul>
+	
+	<hr/>
+
+</section>

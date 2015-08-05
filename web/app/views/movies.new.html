@@ -1,0 +1,46 @@
+
+<h2>Lisää uusi elokuva</h2>
+<form name="form">
+	
+	<div>
+		Title:<br/>
+		<input type="text" name="title" ng-name="title" ng-model="newMovie.title" ng-minlength="3"/>
+		<span ng-show="form.title.$invalid && form.title.$dirty" style="color: red">
+			Otsikko ei kelpaa
+		</span>
+		<span ng-show="newMovie.title" style="color: green">Ok</span>
+	</div>
+
+	<div>
+		Director:<br/>
+		<input type="text" name="director" ng-name="director" ng-model="newMovie.director" ng-minlength="3"/>
+		<span ng-show="form.director.$invalid && form.director.$dirty" style="color: red">
+			Ohjaaja ei kelpaa
+		</span>
+		<span ng-show="newMovie.director" style="color: green">Ok</span>
+	</div>
+
+	<div>
+		Year:<br/>
+		<input type="number" name="year" ng-name="year" ng-model="newMovie.year" ng-pattern="/^[1-2][0-9][0-9][0-9]$/"/>
+		<span ng-show="form.year.$invalid && form.year.$dirty" style="color: red">
+			Vuosi ei kelpaa
+		</span>
+		<span ng-show="newMovie.year" style="color: green">Ok</span>
+	</div>
+
+
+	<div>
+		Descirption<br/>
+		<textarea name="description" ng-name="description" ng-model="newMovie.description" ng-minlength="3"></textarea>
+		<span ng-show="form.description.$invalid && form.description.$dirty" style="color: red">
+			Kuvaus ei kelpaa
+		</span>
+		<span ng-show="newMovie.description" style="color: green">Ok</span>
+	</div>
+	
+	<div>	
+		<button ng-click="add()" ng-disabled="form.$invalid">Lisää</button>
+	</div>
+
+</form>

@@ -1,21 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Elokuvakirjasto</title>
-  </head>
-  <body>
-    <h1>Elokuvakirjasto</h1>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Elokuvakirjasto</title>
+    </head>
+    <body ng-app="Elokuvakirjasto">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#/">Elokuvat</a>
+                </li>
+                <li>
+                    <a href="#/movies/new">Lisää uusi elokuva</a>
+                </li>
+            </ul>
+        </nav>
+        <main id="main" role="main">
+            <h1>Elokuvakirjasto</h1>      
+            <section ng-view></section>
+        </main>
 
-    <!-- Hyödyllisiä kirjastoja -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/firebase/firebase.js"></script>
-    <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+        <!-- Hyödyllisiä kirjastoja -->
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="bower_components/firebase/firebase.js"></script>
+        <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
 
-    <!-- Linkitä omat tiedostosi tähän (huomaa, että polun juuri on web-kansio!) -->
-    <script src="app/app.js"></script>    
-  </body>
+        <!-- Linkitä omat tiedostosi tähän (huomaa, että polun juuri on web-kansio!) -->
+        <script src="app/app.js"></script>
+
+        <!-- Palvelut -->
+        <script src="app/services/firebase_service.js"></script>    
+
+        <!-- Controllerit -->
+        <script src="app/controllers/movie_controller.js"></script>
+
+        <!-- Config tiedostot -->
+        <script src="app/config/routes.js"></script>
+
+    </body>
+    
 </html>
