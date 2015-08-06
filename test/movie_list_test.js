@@ -1,14 +1,12 @@
 describe('Movie list', function(){
     
     var controller, scope;
-    var FirebaseServiceMock;
+    var FirebaseServiceMock, RouteParamsMock;
 
-    beforeEach(function(){
+    beforeEach(function(){   
+        module('App');
         
-        module('Elokuvakirjasto');
-
         FirebaseServiceMock = (function(){
-			
             var movies = [
                 {
                     title: 'Pulp Fiction',
@@ -29,74 +27,93 @@ describe('Movie list', function(){
                     description: '...'
                 }
             ];
-
             return {
-                    all: function() {
-                            return movies;
-                    },
-                    add: function(movie) {
-                            movies.push(movie);
+                all: function() {
+                    return movies;
+                },
+                find: function(key, done) {
+                    if (key = '-Jvx9NcnhXjOzui5rcrX') {
+                        done(movies[0]);
+                    } else {
+                        done(null);
                     }
+                },
+                add: function(movie) {
+                    movies.push(movie);
+                },
+                update: function(movie) {
+                    movies[function() {
+                        movies.forEach(function(index, item) {
+                            if (item.title == movie.title) {
+                                return index;
+                            }
+                        });
+                    }] = movie;
+                },
+                delete: function(movie) {
+                    movies.splice(function(){
+                        movies.forEach(function(index, item) {
+                            if (item.title == movie.title) {
+                                return index;
+                            }
+                        });
+                    }, 1);
+                }
             }
-		})();
+        })();
 
-		// Lisää vakoilijat
-		spyOn(FirebaseServiceMock, 'all').and.callThrough();
-   	spyOn(FirebaseServiceMock, 'add').and.callThrough();
+        RouteParamsMock = (function(){
+            return {
+                id: '-Jvx9NcnhXjOzui5rcrX'
+            }
+        });
+
+        // Lisää vakoilijat
+        spyOn(FirebaseServiceMock, 'all').and.callThrough();
+        spyOn(FirebaseServiceMock, 'find').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'add').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'update').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'delete').and.callThrough(); 
 
     	// Injektoi toteuttamasi kontrolleri tähän
-	    inject(function($controller, $rootScope) {
-	      scope = $rootScope.$new();
-	      // Muista vaihtaa oikea kontrollerin nimi!
-	      controller = $controller('MovieController', {
-	        $scope: scope,
-	        FirebaseService: FirebaseServiceMock
-	      });
-	    });
-  	});
+        inject(function($controller, $rootScope) {
+            scope = $rootScope.$new();
+            controller = $controller('MovieController', {
+                $scope: scope,
+               $routeParams: RouteParamsMock,
+                FirebaseService: FirebaseServiceMock
+            });
+        }); 
+    });
 
-  	/*
-  	* Testaa alla esitettyjä toimintoja kontrollerissasi
-  	*/
+    /*
+    * Testaa alla esitettyjä toimintoja kontrollerissasi
+    */
 
-  	/*
-  	* Testaa, että Firebasesta (mockilta) saadut elokuvat löytyvät konrollerista
-  	* Testaa myös, että Firebasea käyttävästä palvelusta kutsutaan oikeaa funktiota,
-  	* käyttämällä toBeCalled-oletusta.
-  	*/ 
-	it('should list all movies from the Firebase', function(){
-            expect(scope.movies.length).toBe(3);
-	});
+    /*
+    * Testaa, että Firebasesta (mockilta) saadut elokuvat löytyvät konrollerista
+    * Testaa myös, että Firebasea käyttävästä palvelusta kutsutaan oikeaa funktiota,
+    * käyttämällä toBeCalled-oletusta.
+    */ 
+    it('should list all movies from the Firebase', function(){
+        expect(FirebaseServiceMock.all).toHaveBeenCalled();
+        expect(scope.movies.length).toBe(3);
+    });
 
-	it('should be able to add a movie to Firebase', function(){
-		expect(scope.movies.length).toBe(3);
-		scope.newMovie.title = 'Fight Club';
-		scope.newMovie.year = 1999;
-		scope.newMovie.director = "David Fincher";
-		scope.newMovie.description = '...';
-		var movie = scope.newMovie;
-		scope.add();
-		expect(scope.movies.length).toBe(4);
-		expect(scope.movies[3]).toBe(movie);
-	});
 
-	it('should not be able to add an empty movie to Firebase', function(){
-		expect(scope.movies.length).toBe(3);
-		scope.add();
-		expect(scope.movies.length).toBe(3);
-	});
-
-	it('should initially call all-function', function(){
- 		expect(FirebaseServiceMock.all).toHaveBeenCalled();
-  	});
-
-	/* 
-	* Testaa, että elokuvan pystyy poistamaan Firebasesta.
-	* Testaa myös, että Firebasea käyttävästä palvelusta kutsutaan oikeaa funktiota,
-  	* käyttämällä toBeCalled-oletusta.
-	*/
-	it('should be able to remove a movie', function(){
-		expect(true).toBe(false);
-	});
+    /* 
+    * Testaa, että elokuvan pystyy poistamaan Firebasesta.
+    * Testaa myös, että Firebasea käyttävästä palvelusta kutsutaan oikeaa funktiota,
+    * käyttämällä toBeCalled-oletusta.
+    */
+    it('should be able to remove a movie', function(){
+        expect(scope.movies.length).toBe(3);
+        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+            scope.movie = movie;
+        });
+        scope.delete();
+        expect(FirebaseServiceMock.delete).toHaveBeenCalled();
+        expect(scope.movies.length).toBe(2);
+    });
 	
 });

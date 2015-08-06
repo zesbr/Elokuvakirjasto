@@ -1,0 +1,10 @@
+<section ng-show="movie">
+	<h2><a ng-href="#/movies/{{movie.$id}}">{{ movie.title }}</a> ({{ movie.year }})</h2>
+	<p>{{ movie.description }}</p>
+	<strong>Cast & Crew</strong>
+	<ul>
+		<li>Director: {{ movie.director }}</li>
+	</ul>
+	<a href="#/movies/{{movie.$id}}/edit"><button ng-click="edit(movie)">Muokkaa</button></a>
+	<button ng-click="delete()">Poista</button>
+</section>

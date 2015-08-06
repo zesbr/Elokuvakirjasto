@@ -1,5 +1,5 @@
 
-Elokuvakirjasto.service('FirebaseService', function($firebase) {
+App.service('FirebaseService', function($firebase) {
     
 	var ref = new Firebase('https://flickering-fire-1865.firebaseio.com/movies');
 	var sync = $firebase(ref);
@@ -7,11 +7,24 @@ Elokuvakirjasto.service('FirebaseService', function($firebase) {
 
 	this.all = function(){
 		return movies;
- 	};
-    
+ 	}
+	
+	this.find = function(key, done){
+	  movies.$loaded(function(){
+	   	done(movies.$getRecord(key));
+	  });
+	}
+
  	this.add = function(movie){
- 		console.log("lets try");
      	movies.$add(movie);
-	};
-    
+	}
+
+	this.update = function(movie){
+     	movies.$save(movie);
+	}
+
+	this.delete = function(movie){
+     	movies.$remove(movie);
+	}
+
 });

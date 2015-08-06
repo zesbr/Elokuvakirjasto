@@ -1,56 +1,51 @@
-Elokuvakirjasto.controller('MovieController', function($scope, $location, FirebaseService) {
+App.controller('MovieController', function($scope, $location, $routeParams, FirebaseService) {
+    $scope.movies = FirebaseService.all();  
+    if ($routeParams.id) {
+        FirebaseService.find($routeParams.id, function(movie) {
+            $scope.movie = movie;
+        });
+    } else {
+        $scope.movie = {
+            title: '',
+            year: '',
+            director: '',
+            description: ''
+        };  
+    }
 
-    $scope.movies = FirebaseService.all();
-    $scope.newMovie = {
-        title: '',
-        year: '',
-        director: '',
-        description: ''
-    };
-    
-    /**
-     * Lisää uuden elokuvan elokuvakirjastoon
-     */
-    $scope.add = function() {  
-        if (newMovieIsValid()) {     
-            FirebaseService.add($scope.newMovie);
+    $scope.add = function() { 
+        if (valid()) {
+            FirebaseService.add($scope.movie);
             $location.path('/');
         }
-    };
-    
-    function newMovieIsValid() {
-        if (!titleIsValid() || !directorIsValid() || !yearIsValid() || !descriptionIsValid()) {
+    }
+
+    $scope.update = function() {
+        if (valid()) {
+            FirebaseService.update($scope.movie);
+            $location.path('/');
+        }
+    }
+
+    $scope.delete = function() {
+        FirebaseService.delete($scope.movie);
+        $location.path('/');
+    }
+
+    function valid() {
+        if ($scope.movie.title == '') {
+            return false;
+        }
+        if ($scope.movie.year == '') {
+            return false;
+        }
+        if ($scope.movie.director == '') {
+            return false;
+        }
+        if ($scope.movie.description == '') {
             return false;
         }
         return true;
     }
 
-    function titleIsValid() {
-        if ($scope.newMovie.title == '') {
-            return false;
-        }
-        return true;
-    }
-    
-    function directorIsValid() {
-        if ($scope.newMovie.director == '') {
-            return false;
-        }
-        return true;
-    }
-
-    function yearIsValid() {
-        if ($scope.newMovie.year == '') {
-            return false;
-        }
-        return true;
-    }
-
-    function descriptionIsValid() {
-        if ($scope.newMovie.description == '') {
-            return false;
-        }
-        return true;
-    }
-
-});
+}); 

@@ -1,7 +1,1 @@
-
-var Elokuvakirjasto = angular.module('Elokuvakirjasto', 
-	[
-		'firebase',
-		'ngRoute'
-	]
-);
+var App = angular.module('App', ['firebase','ngRoute']);

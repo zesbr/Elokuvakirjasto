@@ -1,0 +1,39 @@
+<form name="form">
+	
+	<div>
+		Title:<br/>
+		<input type="text" name="title" ng-name="title" ng-model="movie.title" ng-minlength="3"/>
+		<span ng-show="form.title.$invalid && form.title.$dirty" style="color: red">
+			Otsikko ei kelpaa
+		</span>
+		<span ng-show="movie.title" style="color: green">Ok</span>
+	</div>
+
+	<div>
+		Year:<br/>
+		<input type="number" name="year" ng-name="year" ng-model="movie.year" ng-pattern="/^[1-2][0-9][0-9][0-9]$/"/>
+		<span ng-show="form.year.$invalid && form.year.$dirty" style="color: red">
+			Vuosi ei kelpaa
+		</span>
+		<span ng-show="movie.year" style="color: green">Ok</span>
+	</div>
+
+	<div>
+		Director:<br/>
+		<input type="text" name="director" ng-name="director" ng-model="movie.director" ng-minlength="3"/>
+		<span ng-show="form.director.$invalid && form.director.$dirty" style="color: red">
+			Ohjaaja ei kelpaa
+		</span>
+		<span ng-show="movie.director" style="color: green">Ok</span>
+	</div>
+
+	<div>
+		Descirption<br/>
+		<textarea name="description" ng-name="description" ng-model="movie.description" ng-minlength="3"></textarea>
+		<span ng-show="form.description.$invalid && form.description.$dirty" style="color: red">
+			Kuvaus ei kelpaa
+		</span>
+		<span ng-show="movie.description" style="color: green">Ok</span>
+	</div>
+	
+</form>
