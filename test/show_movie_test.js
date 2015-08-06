@@ -4,7 +4,7 @@ describe('Show movie', function(){
     var FirebaseServiceMock, RouteParamsMock;
 
     beforeEach(function(){
-        module('App');
+        module('Elokuvakirjasto');
         
         FirebaseServiceMock = (function(){
             var movies = [
