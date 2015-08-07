@@ -1,0 +1,14 @@
+<div ng-controller="ShowMovieController">
+	<div ng-show="!movie">
+		<h1>Loading...</h1>
+	</div>
+	<div ng-show="movie">
+    	<h1>{{ movie.title }} ({{ movie.year }})</h1>
+    	<p>{{ movie.description }}</p>
+    	<p>Directed by <strong>{{ movie.director }}</strong></p>
+	    <div class="btn-group" role="group" ng-show="userLoggedIn">
+	        <a href="#/movies/{{movie.$id}}/edit" class="btn btn-warning">Edit</a>
+	        <button class="btn btn-danger" ng-controller="DeleteMovieController" ng-click="delete(movie)">Delete</button>
+	    </div>
+    </div>
+</div>

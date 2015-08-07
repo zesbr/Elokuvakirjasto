@@ -1,0 +1,11 @@
+<h1>Rekisteröidy</h1>
+<p>Syötä sähköposti ja salasana ja paina alla olevaa "Luo uusi käyttäjä" painiketta.</p>
+<hr/>
+<form name="registrationForm" class="form-horizontal">
+	<ng-include src="'app/views/user.form.html'"></ng-include>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button class="btn btn-primary" ng-click="register()">Luo uusi käyttäjä</button>
+		</div>
+	</div>
+</form>

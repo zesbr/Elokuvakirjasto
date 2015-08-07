@@ -1,0 +1,9 @@
+<div ng-controller="EditMovieController">
+	<h2>Muokkaa elokuvaa</h2>
+	<form name="movieForm">	
+		<ng-include src="'app/views/movie.form.html'"></ng-include>
+		<div class="form-group">
+			<button ng-click="update()" ng-disabled="movieForm.$invalid" class="btn btn-primary">Muokkaa</button>
+		</div>
+	</form>
+</div>

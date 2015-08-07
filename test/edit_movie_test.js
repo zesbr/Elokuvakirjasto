@@ -31,7 +31,7 @@ describe('Edit movie', function(){
                 all: function() {
                     return movies;
                 },
-                find: function(key, done) {
+                get: function(key, done) {
                     if (key = '-Jvx9NcnhXjOzui5rcrX') {
                         done(movies[0]);
                     } else {
@@ -70,7 +70,7 @@ describe('Edit movie', function(){
 
         // Lisää vakoilijat
         spyOn(FirebaseServiceMock, 'all').and.callThrough();
-        spyOn(FirebaseServiceMock, 'find').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'get').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'add').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'update').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'delete').and.callThrough(); 
@@ -78,7 +78,8 @@ describe('Edit movie', function(){
     	// Injektoi toteuttamasi kontrolleri tähän
         inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
-            controller = $controller('MovieController', {
+            scope.parent = { movies: FirebaseServiceMock.all() };
+            controller = $controller('EditMovieController', {
                 $scope: scope,
                 $routeParams: RouteParamsMock,
                 FirebaseService: FirebaseServiceMock
@@ -97,8 +98,8 @@ describe('Edit movie', function(){
     * käyttämällä toBeCalled-oletusta.
     */
     it('should fill the edit form with the current information about the movie', function(){
-        expect(scope.movies.length).toBe(3);
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        expect(scope.parent.movies.length).toBe(3);
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         }); 
         expect(scope.movie).toEqual({
@@ -115,15 +116,15 @@ describe('Edit movie', function(){
     * käyttämällä toBeCalled-oletusta.
     */
     it('should be able to edit a movie by its name, director, release date and description', function(){
-        expect(scope.movies.length).toBe(3);
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        expect(scope.parent.movies.length).toBe(3);
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         }); 
         scope.movie.description = ':)';
         scope.update();
         expect(FirebaseServiceMock.update).toHaveBeenCalled();
         
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         });
         expect(scope.movie).toEqual({
@@ -140,8 +141,8 @@ describe('Edit movie', function(){
     * käyttämällä not.toBeCalled-oletusta.
     */
     it('should not be able to edit a movie if its name, director, release date or description is empty', function(){
-        expect(scope.movies.length).toBe(3);
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        expect(scope.parent.movies.length).toBe(3);
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         });
         scope.movie = {
@@ -152,7 +153,7 @@ describe('Edit movie', function(){
         };
         scope.update();
         expect(FirebaseServiceMock.update).not.toHaveBeenCalled();
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         });
         expect(scope.movie).toEqual({

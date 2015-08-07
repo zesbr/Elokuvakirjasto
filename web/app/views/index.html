@@ -1,0 +1,68 @@
+<section>
+    <h1>Hae Elokuvia</h1>
+    <p>Hae elokuvia OMDB:sta elokuvan nimen ja julkaisuvuoden perusteella. Suorita haku painamalla "Hae" painiketta</p>
+    <hr/>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nimi:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="title" ng-minlength="1" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Julkaisuvuosi:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" ng-model="year" ng-patter="/^[1-2][0-9][0-9][0-9]$/" />
+            </div>
+        </div>
+         <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="search()">Hae</button>
+            </div>
+        </div>
+    </form> 
+    <section ng-show="title">
+        <hr/>
+        <h2 ng-if="!results">Haulla ei löytynyt elokuvia.</h2>
+        <h2 ng-if="results">Haulla löytyi {{ results.length }} <span ng-pluralize count="results.length" when="{ 'one': 'elokuva', 'other': 'elokuvaa' }"></span></h2>
+        <table class="table" ng-if="results">
+            <tr>
+                <th>Nimi</th>
+                <th>Julkaisuvuosi</th>
+            </tr>
+            <tr ng-repeat="movie in results">
+                <td><a href="http://www.imdb.com/title/{{ movie.imdbID }}">{{ movie.Title }}</a></td>
+                <td>{{ movie.Year }}</td>
+            </tr>
+        </table>
+    </section>
+</section>
+
+<hr/>
+
+<section>
+    <h1>Elokuvat</h1>
+    <p>Alla näkyy tietokantaan tallennetut elokuvat.</p>
+    <h2 ng-if="!movies">Ei tallennettuja elokuvia</h2>
+    <table class="table" ng-if="movies">
+        <tr>
+            <th>Nimi</th>
+            <th>Julkaisuvuosi</th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="movie in movies">
+            <td><a ng-href="#/movies/{{movie.$id}}">{{ movie.title }}</a></td>
+            <td>{{ movie.year }}</td>
+            <td>
+                <div class="btn-group" role="group" ng-show="userLoggedIn">
+                    <a href="#/movies/{{movie.$id}}/edit" class="btn btn-xs btn-warning">Muokkaa</a>
+                    <button class="btn btn-xs btn-danger" ng-controller="DeleteMovieController" ng-click="delete(movie)">Poista</button>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="form-group" ng-show="userLoggedIn">
+        <a href="#/movies/new" class="btn btn-success">Lisää uusi elokuva</a>
+    </div>

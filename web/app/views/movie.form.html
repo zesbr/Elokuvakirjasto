@@ -1,0 +1,23 @@
+<div class="form-group">
+	<label>Nimi:</label>
+	<input type="text" name="title" ng-name="title" ng-model="movie.title" ng-minlength="1" class="form-control" />
+	<p ng-show="movieForm.title.$invalid && movieForm.title.$dirty" style="color: red" class="help-block">Nimi ei kelpaa</p>
+</div>
+<div class="form-group">
+	<label>Vuosi:</label>
+	<input type="number" name="year" ng-name="year" ng-model="movie.year" ng-pattern="/^[1-2][0-9][0-9][0-9]$/" class="form-control" />
+	<p ng-show="movieForm.year.$invalid && movieForm.year.$dirty" style="color: red" class="help-block">Vuosi ei kelpaa</p>
+</div>
+<div class="form-group">
+	<label>Ohjaaja:</label>
+	<input type="text" name="director" ng-name="director" ng-model="movie.director" ng-minlength="1" class="form-control" />
+	<p ng-show="movieForm.director.$invalid && movieForm.director.$dirty" style="color: red" class="help-block">Ohjaaja ei keplaa</p>
+</div>
+<div class="form-group">
+	<label>Kuvaus:</label>
+	<textarea name="description" rows="5" ng-name="description" ng-model="movie.description" ng-minlength="1" class="form-control"></textarea>
+	<p ng-show="movieForm.description.$invalid && movieForm.description.$dirty" style="color: red" class="help-block">Kuvaus ei kelpaa</p>
+</div>
+<div class="form-group">
+	<p ng-if="message" style="color: red">{{ message }}</p>
+</div>

@@ -1,0 +1,16 @@
+<h1>Kirjaudu sisään</h1>
+<p>Syötä sähköposti ja salasana ja paina alla olevaa "Kirjaudu sisään" painiketta.</p>
+<hr/>
+<form name="loginForm" class="form-horizontal">
+	<ng-include src="'app/views/user.form.html'"></ng-include>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button class="btn btn-primary" ng-click="login()">Kirjaudu sisään</button>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<p>Jos sinulle ei ole käyttäjätiliä klikkaa <a href="#/registration">tästä</a> ja rekisteröidy.</p>
+		</div>
+	</div>
+</form>

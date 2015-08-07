@@ -31,7 +31,7 @@ describe('Show movie', function(){
                 all: function() {
                     return movies;
                 },
-                find: function(key, done) {
+                get: function(key, done) {
                     if (key = '-Jvx9NcnhXjOzui5rcrX') {
                         done(movies[0]);
                     } else {
@@ -70,7 +70,7 @@ describe('Show movie', function(){
 
         // Lisää vakoilijat
         spyOn(FirebaseServiceMock, 'all').and.callThrough();
-        spyOn(FirebaseServiceMock, 'find').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'get').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'add').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'update').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'delete').and.callThrough(); 
@@ -78,7 +78,8 @@ describe('Show movie', function(){
     	// Injektoi toteuttamasi kontrolleri tähän
         inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
-            controller = $controller('MovieController', {
+            scope.parent = { movies: FirebaseServiceMock.all() };
+            controller = $controller('ShowMovieController', {
 	           $scope: scope,
                $routePrams: RouteParamsMock,
 	           FirebaseService: FirebaseServiceMock
@@ -96,8 +97,8 @@ describe('Show movie', function(){
     * käyttämällä toBeCalled-oletusta.
     */
     it('should show current movie from Firebase', function(){
-        expect(scope.movies.length).toBe(3);
-        FirebaseServiceMock.find(RouteParamsMock.id, function(movie) {
+        expect(scope.parent.movies.length).toBe(3);
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
             scope.movie = movie;
         });
         expect(scope.movie).toEqual({

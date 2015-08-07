@@ -1,6 +1,5 @@
-
-App.service('FirebaseService', function($firebase) {
-    
+App.service('FirebaseService', function($firebase) { 
+ 
 	var ref = new Firebase('https://flickering-fire-1865.firebaseio.com/movies');
 	var sync = $firebase(ref);
 	var movies = sync.$asArray();
@@ -9,7 +8,7 @@ App.service('FirebaseService', function($firebase) {
 		return movies;
  	}
 	
-	this.find = function(key, done){
+	this.get = function(key, done){
 	  movies.$loaded(function(){
 	   	done(movies.$getRecord(key));
 	  });
@@ -26,5 +25,4 @@ App.service('FirebaseService', function($firebase) {
 	this.delete = function(movie){
      	movies.$remove(movie);
 	}
-
 });

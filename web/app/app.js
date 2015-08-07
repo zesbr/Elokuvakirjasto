@@ -1,1 +1,1 @@
-var App = angular.module('Elokuvakirjasto', ['firebase','ngRoute']);
+var App = angular.module('Elokuvakirjasto', ['firebase', 'ngRoute']);

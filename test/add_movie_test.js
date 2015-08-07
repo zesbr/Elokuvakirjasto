@@ -31,7 +31,7 @@ describe('Add movie', function(){
                 all: function() {
                     return movies;
                 },
-                find: function(key, done) {
+                get: function(key, done) {
                     if (key = '-Jvx9NcnhXjOzui5rcrX') {
                         done(movies[0]);
                     } else {
@@ -70,15 +70,16 @@ describe('Add movie', function(){
         
         // Lisää vakoilijat
         spyOn(FirebaseServiceMock, 'all').and.callThrough();
-        spyOn(FirebaseServiceMock, 'find').and.callThrough(); 
+        spyOn(FirebaseServiceMock, 'get').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'add').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'update').and.callThrough(); 
         spyOn(FirebaseServiceMock, 'delete').and.callThrough(); 
 
         // Injektoi toteuttamasi kontrolleri tähän
-        inject(function($controller, $rootScope) {
+        inject(function($controller, $rootScope) {            
             scope = $rootScope.$new();
-            controller = $controller('MovieController', {
+            scope.parent = { movies: FirebaseServiceMock.all() };
+            controller = $controller('AddMovieController', {
                 $scope: scope,
                 $routeParams: RouteParamsMock,
                 FirebaseService: FirebaseServiceMock
@@ -97,7 +98,7 @@ describe('Add movie', function(){
     * toBeCalled-oletusta.
     */
     it('should be able to add a movie by its name, director, release date and description', function(){
-        expect(scope.movies.length).toBe(3);
+        expect(scope.parent.movies.length).toBe(3);
         scope.movie = {
             title: 'The Godfather: Part II',
             year: 1974,
@@ -106,7 +107,7 @@ describe('Add movie', function(){
         };
         scope.add();
         expect(FirebaseServiceMock.add).toHaveBeenCalled();
-        expect(scope.movies.length).toBe(4);
+        expect(scope.parent.movies.length).toBe(4);
     });
 
     /*	
@@ -116,7 +117,7 @@ describe('Add movie', function(){
     * not.toBeCalled-oletusta (muista not-negaatio!).
     */
     it('should not be able to add a movie if its name, director, release date or description is empty', function(){
-        expect(scope.movies.length).toBe(3);
+        expect(scope.parent.movies.length).toBe(3);
         scope.movie = {
             title: '',
             year: '',
@@ -125,7 +126,7 @@ describe('Add movie', function(){
         };
         scope.add();
         expect(FirebaseServiceMock.add).not.toHaveBeenCalled()
-        expect(scope.movies.length).toBe(3);
+        expect(scope.parent.movies.length).toBe(3);
     });
 
 });

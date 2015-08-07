@@ -1,0 +1,9 @@
+<div ng-controller="AddMovieController">
+	<h1>Lisää uusi elokuva</h1>
+	<form name="movieForm">	
+		<ng-include src="'app/views/movie.form.html'"></ng-include>
+		<div class="form-group">
+			<button ng-click="add()" ng-disabled="movieForm.$invalid" class="btn btn-primary">Lisää</button>
+		</div>
+	</form>
+</div>

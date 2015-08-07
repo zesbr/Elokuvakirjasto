@@ -1,4 +1,4 @@
-describe('Movie list', function(){
+describe('Remove movie', function(){
     
     var controller, scope;
     var FirebaseServiceMock, RouteParamsMock;
@@ -78,7 +78,8 @@ describe('Movie list', function(){
     	// Injektoi toteuttamasi kontrolleri tähän
         inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
-            controller = $controller('MovieController', {
+            scope.parent = { movies: FirebaseServiceMock.all() };
+            controller = $controller('DeleteMovieController', {
                 $scope: scope,
                 $routeParams: RouteParamsMock,
                 FirebaseService: FirebaseServiceMock
@@ -90,15 +91,19 @@ describe('Movie list', function(){
     * Testaa alla esitettyjä toimintoja kontrollerissasi
     */
 
-    /*
-    * Testaa, että Firebasesta (mockilta) saadut elokuvat löytyvät konrollerista
+    /* 
+    * Testaa, että elokuvan pystyy poistamaan Firebasesta.
     * Testaa myös, että Firebasea käyttävästä palvelusta kutsutaan oikeaa funktiota,
     * käyttämällä toBeCalled-oletusta.
-    */ 
-    it('should list all movies from the Firebase', function(){
-        expect(FirebaseServiceMock.all).toHaveBeenCalled();
-        expect(scope.movies.length).toBe(3);
+    */
+    it('should be able to remove a movie', function(){
+        expect(scope.parent.movies.length).toBe(3);
+        FirebaseServiceMock.get(RouteParamsMock.id, function(movie) {
+            scope.movie = movie;
+        });
+        scope.delete();
+        expect(FirebaseServiceMock.delete).toHaveBeenCalled();
+        expect(scope.parent.movies.length).toBe(2);
     });
-    
 	
 });
